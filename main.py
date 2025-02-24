@@ -16,9 +16,21 @@ RSS_URL = "https://asdw.nbed.ca/alerts/feed/"
 
 application = Application.builder().token(TELEGRAM_TOKEN).build()
 
-last_alert_guid = None
+LAST_ALERT_GUID_FILE = 'last_alert_guid.txt'
 
 halifax_tz = pytz.timezone('America/Halifax')
+
+
+def load_last_alert_guid():
+    if os.path.exists(LAST_ALERT_GUID_FILE):
+        with open(LAST_ALERT_GUID_FILE, 'r') as file:
+            return file.read().strip()
+    return None
+
+
+def save_last_alert_guid(guid):
+    with open(LAST_ALERT_GUID_FILE, 'w') as file:
+        file.write(guid)
 
 
 def convert_time_zone(utc_time_str):
@@ -43,7 +55,7 @@ async def send_alert_to_telegram(alert_message, alert_date, alert_link):
 
 
 async def scan_feed():
-    global last_alert_guid
+    last_alert_guid = load_last_alert_guid()
     feed = feedparser.parse(RSS_URL)
 
     for entry in feed.entries:
@@ -54,6 +66,7 @@ async def scan_feed():
 
         if alert_guid != last_alert_guid:
             await send_alert_to_telegram(alert_message, alert_date, alert_link)
+            save_last_alert_guid(alert_guid)
             last_alert_guid = alert_guid
 
 
