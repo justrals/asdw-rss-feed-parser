@@ -12,8 +12,6 @@ load_dotenv()
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 CHANNEL_ID = os.getenv('CHANNEL_ID')
 
-RSS_URL = "https://asdw.nbed.ca/alerts/feed/"
-
 application = Application.builder().token(TELEGRAM_TOKEN).build()
 
 LAST_ALERT_GUID_FILE = 'last_alert_guid.txt'
@@ -56,7 +54,7 @@ async def send_alert_to_telegram(alert_message, alert_date, alert_link):
 
 async def scan_feed():
     last_alert_guid = load_last_alert_guid()
-    feed = feedparser.parse(RSS_URL)
+    feed = feedparser.parse('https://asdw.nbed.ca/alerts/feed/')
 
     for entry in feed.entries:
         alert_message = entry.title
