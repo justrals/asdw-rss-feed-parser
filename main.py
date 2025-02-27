@@ -37,6 +37,11 @@ def add_sent_guid(guid):
         sent_guids.append(guid)
         save_sent_guids(sent_guids)
 
+def remove_first_sent_guid():
+    sent_guids = load_sent_guids()
+    if sent_guids:
+        sent_guids.pop(0)
+        save_sent_guids(sent_guids)
 
 def extract_guid_number(guid_url):
     return guid_url.split('p=')[1]
@@ -77,6 +82,8 @@ async def scan_feed():
         if guid_number not in sent_guids:
             await send_alert_to_telegram(alert_message, alert_date, alert_link)
             add_sent_guid(guid_number)
+            remove_first_sent_guid()
+
 
 
 async def main():
