@@ -82,7 +82,7 @@ async def scan_feed():
         if guid_number not in sent_guids:
             await send_alert_to_telegram(alert_message, alert_date, alert_link)
             add_sent_guid(guid_number)
-            if len(sent_guids) > 9:
+            if len(sent_guids) > 10:
                 remove_first_sent_guid()
 
 
