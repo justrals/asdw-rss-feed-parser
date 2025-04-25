@@ -21,8 +21,8 @@ pip install -r requirements.txt
 <p>3. Create .env file with the following content</p>
 
 ```bash
-TELEGRAM_TOKEN=(your API token from @BotFather)
-CHANNEL_ID=(your channel ID, e.g. -1001234567890)
+TELEGRAM_TOKEN=your API token from @BotFather
+CHANNEL_ID=your channel ID, e.g. -1001234567890
 ```
 <p>4. Run the script</p>
 
